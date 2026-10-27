@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dream Project</title>
+<meta name="description" content="Convierte lo que sabes en una marca personal que te trae clientes. Comunidad, cursos y una sesión en vivo cada semana.">
+<meta property="og:title" content="Dream Project">
+<meta property="og:description" content="Convierte lo que sabes en una marca personal que te trae clientes, sin renunciar a tu trabajo.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#060606">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='7' fill='none' stroke='%23FDDA0D' stroke-width='4'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23FDDA0D'/%3E%3C/svg%3E">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: una sola columna centrada de 1120px; bandas negras con rejilla HUD, amarillo de marca como única señal de acción */
+:root{
+  --bg:#060606;
+  --panel:#0f0f0e;
+  --line:#2a2924;
+  --fg:#f4f2ea;
+  --muted:#a29f93;
+  --y:#FDDA0D;
+  --y-dim:rgba(253,218,13,.14);
+  --ink:#060606;
+  --f-display:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --wrap:1120px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{position:relative}
+.band{padding-block:clamp(72px,10vw,120px)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--y);display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:8px;height:8px;background:var(--y);border-radius:50%;box-shadow:0 0 12px var(--y);animation:pulse 2s infinite}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
+h2{font-size:clamp(30px,4.6vw,52px);font-weight:900;line-height:1.05;letter-spacing:-.02em;text-transform:uppercase}
+h2 em{font-style:normal;color:var(--y)}
+.lead{color:var(--muted);font-size:clamp(16px,1.6vw,18px);max-width:60ch}
+.sec-head{display:grid;gap:16px;margin-bottom:48px}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--f-display);font-weight:800;font-size:16px;text-decoration:none;border-radius:999px;padding:18px 30px;transition:transform .2s,box-shadow .2s,background .2s;position:relative;overflow:hidden}
+.btn-y{background:var(--y);color:var(--ink);box-shadow:0 0 0 0 var(--y-dim),0 10px 40px rgba(253,218,13,.25)}
+.btn-y:hover{transform:translateY(-2px);box-shadow:0 0 0 8px var(--y-dim),0 16px 50px rgba(253,218,13,.35)}
+.btn-y::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);animation:shine 3.6s infinite}
+.btn-ghost{border:1px solid var(--line);color:var(--fg)}
+.btn-ghost:hover{border-color:var(--y);color:var(--y)}
+.btn:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid var(--y);outline-offset:3px}
+.arrow{transition:transform .2s}
+.btn:hover .arrow{transform:translateX(4px)}
+
+/* Nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(6,6,6,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo{font-family:var(--f-display);font-weight:900;letter-spacing:.24em;font-size:14px;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:22px;height:22px;border:2px solid var(--y);border-radius:6px;display:grid;place-items:center;font-style:normal}
+.logo i::after{content:"";width:6px;height:6px;background:var(--y);border-radius:50%}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:600}
+.nav-links a{text-decoration:none;color:var(--muted)}
+.nav-links a:hover{color:var(--fg)}
+.nav .btn{padding:11px 20px;font-size:14px}
+@media (max-width:820px){.nav-links{display:none}}
+
+/* Hero */
+.hero{min-height:min(860px,92vh);display:flex;align-items:center;overflow:hidden;border-bottom:1px solid var(--line)}
+#field{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:46%;background:
+  linear-gradient(to top,var(--bg) 0%,transparent 100%),
+  repeating-linear-gradient(90deg,rgba(253,218,13,.09) 0 1px,transparent 1px 80px),
+  repeating-linear-gradient(0deg,rgba(253,218,13,.09) 0 1px,transparent 1px 40px);
+  transform:perspective(500px) rotateX(58deg);transform-origin:bottom;pointer-events:none;mask-image:linear-gradient(to top,#000 10%,transparent 90%);-webkit-mask-image:linear-gradient(to top,#000 10%,transparent 90%)}
+.hero .wrap{position:relative;z-index:2;padding-block:110px 90px;display:grid;gap:28px;width:100%}
+.hero h1{font-size:clamp(40px,7.4vw,92px);font-weight:900;line-height:.96;letter-spacing:-.035em;text-transform:uppercase;max-width:15ch}
+.hero h1 .y{color:var(--y);text-shadow:0 0 40px rgba(253,218,13,.35)}
+.type-line{display:block}
+.hero .lead{font-size:clamp(17px,1.9vw,21px);color:#d6d3c8}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.hud{display:flex;flex-wrap:wrap;gap:0;margin-top:18px;border:1px solid var(--line);border-radius:14px;background:rgba(15,15,14,.6);backdrop-filter:blur(6px);width:fit-content;max-width:100%}
+.hud div{padding:16px 24px;border-right:1px solid var(--line);min-width:0}
+.hud div:last-child{border-right:0}
+.hud b{display:block;font-family:var(--f-display);font-size:28px;font-weight:900;color:var(--y);font-variant-numeric:tabular-nums;line-height:1}
+.hud span{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:560px){.hud div{flex:1 1 33%;padding:14px 12px}.hud b{font-size:22px}.hud span{font-size:10px}}
+
+/* Ticker */
+.ticker{border-bottom:1px solid var(--line);overflow:hidden;background:var(--y);color:var(--ink)}
+.ticker-track{display:flex;gap:48px;padding-block:16px;width:max-content;animation:tick 32s linear infinite;font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:15px;letter-spacing:.06em;white-space:nowrap}
+.ticker-track span{display:inline-flex;align-items:center;gap:48px}
+.ticker-track span::after{content:"✦"}
+
+/* Para quién */
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.who-card{border:1px solid var(--line);border-radius:18px;padding:26px;background:var(--panel);display:grid;gap:12px;align-content:start;position:relative;overflow:hidden}
+.who-card .k{font-family:var(--f-mono);font-size:12px;color:var(--y)}
+.who-card p{margin:0;font-weight:600;font-size:17px;line-height:1.45}
+.spot{position:relative}
+.spot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(253,218,13,.12),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+.spot:hover::before{opacity:1}
+
+/* Antes / Después */
+.ba{display:grid;grid-template-columns:1fr auto 1fr;border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.ba-col{padding:28px clamp(18px,3vw,36px);display:grid;gap:0;min-width:0}
+.ba-col h3{font-family:var(--f-mono);font-size:12px;letter-spacing:.18em;font-weight:600;text-transform:uppercase;margin-bottom:10px}
+.ba-col.before h3{color:var(--muted)}
+.ba-col.after{background:linear-gradient(135deg,rgba(253,218,13,.12),rgba(253,218,13,.03))}
+.ba-col.after h3{color:var(--y)}
+.ba-col p{margin:0;padding:16px 0;border-bottom:1px solid var(--line);min-height:76px;display:flex;align-items:center}
+.ba-col p:last-child{border-bottom:0}
+.ba-col.before p{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(162,159,147,.4)}
+.ba-col.after p{font-weight:700}
+.ba-mid{display:grid;place-items:center;border-inline:1px solid var(--line);padding:0 14px;background:var(--panel)}
+.ba-mid span{writing-mode:vertical-rl;font-family:var(--f-mono);font-size:11px;letter-spacing:.3em;color:var(--y);text-transform:uppercase}
+@media (max-width:720px){.ba{grid-template-columns:1fr}.ba-mid{border-inline:0;border-block:1px solid var(--line);padding:10px}.ba-mid span{writing-mode:horizontal-tb}.ba-col p{min-height:0}}
+
+/* Cómo funciona */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
+@media (max-width:860px){.how{grid-template-columns:1fr}}
+.how-card{border:1px solid var(--line);border-radius:22px;padding:30px;background:var(--panel);display:grid;gap:14px;align-content:start;overflow:hidden}
+.how-card .n{font-family:var(--f-mono);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+.how-card .n b{color:var(--y);font-weight:600}
+.how-card h3{font-size:24px;font-weight:900;line-height:1.1;text-transform:uppercase}
+.how-card p{margin:0;color:var(--muted)}
+.viz{height:96px;border-radius:12px;background:#0a0a09;border:1px solid var(--line);position:relative;overflow:hidden}
+/* viz 1: barra de progreso a tu ritmo */
+.v-progress{position:absolute;left:16px;right:16px;top:50%;height:8px;border-radius:9px;background:#1d1c18;transform:translateY(-50%)}
+.v-progress i{position:absolute;inset:0 auto 0 0;width:62%;border-radius:9px;background:var(--y);box-shadow:0 0 18px var(--y);animation:grow 4s ease-in-out infinite alternate}
+.v-progress em{position:absolute;top:-28px;font-family:var(--f-mono);font-style:normal;font-size:11px;color:var(--muted)}
+/* viz 2: semana */
+.v-week{position:absolute;inset:16px;display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.v-week span{border-radius:6px;background:#1d1c18;display:grid;place-items:center;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.v-week span.on{background:var(--y);color:var(--ink);font-weight:600;animation:live 1.6s infinite}
+/* viz 3: comunidad */
+.v-dots{position:absolute;inset:0}
+.v-dots i{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--y);box-shadow:0 0 12px var(--y);animation:float 3s ease-in-out infinite}
+
+/* Ruta */
+.route{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.route::before{content:"";position:absolute;left:0;right:0;top:27px;height:2px;background:linear-gradient(90deg,var(--y),rgba(253,218,13,.15))}
+.stage{position:relative;display:grid;gap:12px;align-content:start;padding-top:0}
+.stage .node{width:56px;height:56px;border-radius:16px;background:var(--bg);border:2px solid var(--y);display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;color:var(--y);position:relative;z-index:1;box-shadow:0 0 24px rgba(253,218,13,.25)}
+.stage h3{font-size:19px;font-weight:900;text-transform:uppercase;line-height:1.15}
+.stage p{margin:0;color:var(--muted);font-size:15px}
+.stage .tag{font-family:var(--f-mono);font-size:11px;color:var(--y);letter-spacing:.08em;text-transform:uppercase}
+@media (max-width:860px){.route{grid-template-columns:1fr 1fr;row-gap:36px}.route::before{display:none}}
+@media (max-width:480px){.route{grid-template-columns:1fr}}
+
+/* Planes */
+.plans{display:grid;grid-template-columns:1fr 1.15fr;gap:20px;align-items:stretch}
+@media (max-width:860px){.plans{grid-template-columns:1fr}}
+.plan{border:1px solid var(--line);border-radius:26px;padding:clamp(24px,3.4vw,40px);background:var(--panel);display:flex;flex-direction:column;gap:22px;min-width:0}
+.plan.full{border:1px solid transparent;background:linear-gradient(var(--panel),var(--panel)) padding-box,conic-gradient(from var(--ang,0deg),var(--y),transparent 30%,transparent 60%,var(--y)) border-box;animation:spin 6s linear infinite;box-shadow:0 30px 80px rgba(253,218,13,.08)}
+.plan-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.plan-name{font-family:var(--f-display);font-weight:900;font-size:clamp(28px,3.4vw,38px);text-transform:uppercase;line-height:1}
+.badge{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;border-radius:999px;padding:6px 12px;border:1px solid var(--line);color:var(--muted)}
+.plan.full .badge{background:var(--y);color:var(--ink);border-color:var(--y);font-weight:600}
+.plan-desc{margin:0;color:var(--muted)}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:0;flex:1}
+.plan li{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-weight:500;font-size:15px}
+.plan li:last-child{border-bottom:0}
+.plan li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:6px;background:var(--y-dim);border:1px solid var(--y);background-image:linear-gradient(var(--y),var(--y));background-size:8px 8px;background-position:center;background-repeat:no-repeat}
+.plan li.plus{color:var(--y);font-weight:700}
+.plan li.plus::before{background:var(--y)}
+.plan .btn{justify-content:center}
+.plan-note{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:center;margin:0}
+
+/* Equipo */
+.team{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:720px){.team{grid-template-columns:1fr}}
+.person{border:1px solid var(--line);border-radius:24px;padding:28px;background:var(--panel);display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;overflow:hidden}
+.avatar{width:140px;height:140px;border-radius:26px;position:relative;flex:none;max-width:100%}
+.avatar img{width:100%;height:100%;object-fit:cover;border-radius:26px;display:block;border:2px solid var(--y);box-shadow:0 0 30px rgba(253,218,13,.2)}
+.avatar::after{content:"";position:absolute;inset:-8px;border-radius:32px;border:1px dashed var(--y);animation:rot 14s linear infinite;pointer-events:none}
+.person h3{font-size:24px;font-weight:900;text-transform:uppercase}
+.person .h{font-family:var(--f-mono);font-size:13px;color:var(--muted);text-decoration:none}
+.person .h:hover{color:var(--y)}
+.person .role{margin:6px 0 0;font-weight:700;color:var(--y)}
+.person .bio{margin:6px 0 0;color:var(--muted);font-size:15px}
+@media (max-width:420px){.person{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{display:grid;gap:12px;max-width:820px}
+.faq details{border:1px solid var(--line);border-radius:16px;background:var(--panel);overflow:hidden}
+.faq summary{cursor:pointer;list-style:none;padding:22px 24px;font-weight:700;font-size:17px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--f-mono);color:var(--y);font-size:22px;transition:transform .25s;flex:none}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0;padding:0 24px 22px;color:var(--muted);max-width:65ch}
+
+/* Cierre */
+.final{text-align:center;overflow:hidden;border-top:1px solid var(--line)}
+.final .wrap{display:grid;gap:26px;justify-items:center}
+.final h2{font-size:clamp(30px,5vw,60px);max-width:18ch}
+.final .glow{position:absolute;width:720px;max-width:100%;aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(253,218,13,.16),transparent 60%);pointer-events:none}
+footer{border-top:1px solid var(--line);padding-block:36px 110px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted)}
+footer a{text-decoration:none}
+footer a:hover{color:var(--y)}
+
+/* CTA flotante */
+.float-cta{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;padding:14px 22px;font-size:14px;transform:translateY(140%);transition:transform .35s}
+.float-cta.show{transform:none}
+
+/* Reveal (solo para lo que está fuera de pantalla al cargar) */
+.pre{opacity:0;transform:translateY(28px)}
+.in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+
+/* Legal */
+.legal-links{display:flex;flex-wrap:wrap;gap:8px 18px}
+.legal-links button{background:none;border:0;padding:0;color:var(--muted);font:inherit;cursor:pointer}
+.legal-links button:hover{color:var(--y)}
+dialog.legal{background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:20px;padding:0;width:min(720px,calc(100vw - 32px));max-height:min(80vh,760px)}
+dialog.legal::backdrop{background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
+.legal-in{padding:28px clamp(20px,4vw,40px) 32px;display:grid;gap:14px}
+.legal-in h3{font-size:22px;font-weight:900;text-transform:uppercase;padding-right:40px}
+.legal-in h4{margin:8px 0 0;font-size:15px;color:var(--y)}
+.legal-in p,.legal-in li{margin:0;color:#d6d3c8;font-size:15px;max-width:65ch}
+.legal-in ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.legal-in .ph{color:var(--y);font-family:var(--f-mono);font-size:13px}
+.legal-in .upd{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.x{position:sticky;top:0;float:right;margin:14px 14px 0 0;width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:18px;cursor:pointer}
+.x:hover{border-color:var(--y);color:var(--y)}
+.cookie{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:70;max-width:560px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.cookie p{margin:0;font-size:14px;color:#d6d3c8}
+.cookie p button{background:none;border:0;padding:0;color:var(--y);font:inherit;text-decoration:underline;cursor:pointer}
+.cookie-row{display:flex;flex-wrap:wrap;gap:10px}
+.cookie .btn{padding:11px 18px;font-size:14px;cursor:pointer;font-family:var(--f-display)}
+.cookie .btn-ghost{background:transparent}
+.cookie .btn-y::after{display:none}
+.prefs{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:12px}
+.prefs label{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:14px}
+.prefs small{display:block;color:var(--muted);font-size:12px}
+.prefs input{width:20px;height:20px;accent-color:var(--y);flex:none}
+
+@keyframes pulse{50%{opacity:.35}}
+@keyframes shine{0%,60%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes tick{to{transform:translateX(-50%)}}
+@keyframes grow{from{width:18%}to{width:88%}}
+@keyframes live{50%{box-shadow:0 0 0 6px rgba(253,218,13,.18)}}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes rot{to{transform:rotate(360deg)}}
+@property --ang{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes spin{to{--ang:360deg}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.pre{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+
+<nav class="nav" aria-label="Principal">
+  <div class="wrap">
+    <a class="logo" href="#top"><i></i>DREAM PROJECT</a>
+    <div class="nav-links">
+      <a href="#como">Cómo funciona</a>
+      <a href="#ruta">La ruta</a>
+      <a href="#planes">Planes</a>
+      <a href="#faq">Preguntas</a>
+    </div>
+    <a class="btn btn-y" href="https://www.skool.com/dream-project-5697/about" target="_blank" rel="noopener">Entrar <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <span class="eyebrow">Comunidad Dream Project · ahora en Skool</span>
+    <h1><span class="type-line">Transforma lo que sabes en un</span> <span class="type-line y">negocio digital</span></h1>
+    <p class="lead">Construye una marca personal que te trae clientes. A tu ritmo, con una sesión en vivo cada semana y sin renunciar a tu trabajo.</p>
+    <div class="cta-row">
+      <a class="btn btn-y" href="https://www.skool.com/dream-project-5697/about" target="_blank" rel="noopener">Quiero entrar a Dream Project <span class="arrow">→</span></a>
+      <a class="btn btn-ghost" href="#planes">Ver los 2 planes</a>
+    </div>
+    <div class="hud" aria-label="Lo que hay dentro">
+      <div><b data-count="6">6</b><span>cursos</span></div>
+      <div><b data-count="53">53</b><span>lecciones cortas</span></div>
+      <div><b>1</b><span>live por semana</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Oferta clara</span><span>Marca personal</span><span>Contenido que vende</span><span>Sistema de ventas</span><span>Hot seats</span><span>Equipo de IA</span><span>La Bóveda</span>
+    <span>Oferta clara</span><span>Marca personal</span><span>Contenido que vende</span><span>Sistema de ventas</span><span>Hot seats</span><span>Equipo de IA</span><span>La Bóveda</span>
+  </div>
+</div>
+
+<section class="band" id="para-quien">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Para quién es</span>
+      <h2>Esto es para ti <em>si…</em></h2>
+    </div>
+    <div class="who">
+      <div class="who-card spot reveal"><span class="k">01</span><p>Te piden consejos gratis y sabes que alguien pagaría por eso.</p></div>
+      <div class="who-card spot reveal"><span class="k">02</span><p>Ya lo intentaste solo y el ensayo y error te costó tiempo.</p></div>
+      <div class="who-card spot reveal"><span class="k">03</span><p>Quieres ingresos propios sin dejar tu estabilidad.</p></div>
+      <div class="who-card spot reveal"><span class="k">04</span><p>Te da miedo la cámara, pero sabes que tienes que mostrarte.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" style="padding-top:0">
+  <div class="wrap">
+    <div class="ba reveal">
+      <div class="ba-col before">
+        <h3>Antes</h3>
+        <p>No sabes cómo empaquetar lo que sabes</p>
+        <p>Publicas sin estrategia y sin resultados</p>
+        <p>Cada intento te cuesta más tiempo</p>
+        <p>Dependes de que alguien más te escoja</p>
+      </div>
+      <div class="ba-mid"><span>Dream Project</span></div>
+      <div class="ba-col after">
+        <h3>Después</h3>
+        <p>Tienes una oferta clara que la gente entiende y paga</p>
+        <p>Tu contenido genera autoridad y trae clientes</p>
+        <p>Tienes un método que puedes repetir</p>
+        <p>Facturas por tu cuenta</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="como" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Cómo funciona</span>
+      <h2>Avanzas a tu ritmo.<br><em>Nunca solo.</em></h2>
+    </div>
+    <div class="how">
+      <article class="how-card spot reveal">
+        <div class="n"><b>Paso 1</b><span>cursos</span></div>
+        <div class="viz"><div class="v-progress"><i></i><em>tu avance</em></div></div>
+        <h3>Aprendes a tu ritmo</h3>
+        <p>Lecciones cortas en Skool. Cada una termina con algo hecho, no con más teoría.</p>
+      </article>
+      <article class="how-card spot reveal">
+        <div class="n"><b>Paso 2</b><span>en vivo</span></div>
+        <div class="viz"><div class="v-week"><span>L</span><span>M</span><span class="on">X</span><span>J</span><span>V</span><span>S</span><span>D</span></div></div>
+        <h3>1 sesión en vivo cada semana</h3>
+        <p>Hot seats: llevas tu caso y sales con acciones concretas. Si no llegas, queda grabada.</p>
+      </article>
+      <article class="how-card spot reveal">
+        <div class="n"><b>Paso 3</b><span>comunidad</span></div>
+        <div class="viz"><div class="v-dots" id="dots"></div></div>
+        <h3>Comunidad que empuja</h3>
+        <p>Dreamers que avanzan contigo, retos, ranking y una Bóveda que crece cada mes.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="ruta" style="background:linear-gradient(180deg,transparent,rgba(253,218,13,.04),transparent)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">El Método Dream Project™</span>
+      <h2>La ruta de <em>cero a clientes</em></h2>
+      <p class="lead">El orden importa. Primero sabes qué vender, después te haces visible y al final cierras.</p>
+    </div>
+    <div class="route">
+      <div class="stage reveal"><div class="node">01</div><span class="tag">Claridad</span><h3>Oferta clara</h3><p>Qué vender, a quién y a qué precio, validado con clientes reales.</p></div>
+      <div class="stage reveal"><div class="node">02</div><span class="tag">Autoridad</span><h3>Marca personal</h3><p>Un perfil que en segundos dice quién eres y por qué confiar en ti.</p></div>
+      <div class="stage reveal"><div class="node">03</div><span class="tag">Visibilidad</span><h3>Contenido que vende</h3><p>Ganchos, guiones, carruseles e historias, sin miedo a la cámara.</p></div>
+      <div class="stage reveal"><div class="node">04</div><span class="tag">Ingresos</span><h3>Sistema de ventas</h3><p>Landing, ManyChat, CRM y guion de llamada para cerrar clientes.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="planes" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Planes</span>
+      <h2>Elige cómo <em>empiezas</em></h2>
+      <p class="lead">Dos formas de entrar. Ves el precio y te inscribes directo en Skool.</p>
+    </div>
+    <div class="plans">
+      <article class="plan reveal">
+        <div class="plan-top"><span class="plan-name">Standard</span><span class="badge">Marca + contenido</span></div>
+        <p class="plan-desc">Para quien ya tiene claro qué vende y necesita hacerse visible.</p>
+        <ul>
+          <li>Curso Construye tu Marca</li>
+          <li>Curso Contenido que Vende</li>
+          <li>Ganchos, guiones, carruseles e historias</li>
+          <li>Comunidad Dream Project en Skool</li>
+          <li>1 sesión en vivo cada semana</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://www.skool.com/dream-project-5697/about" target="_blank" rel="noopener">Ver Standard en Skool <span class="arrow">→</span></a>
+      </article>
+      <article class="plan full reveal">
+        <div class="plan-top"><span class="plan-name">Completo</span><span class="badge">Todo el método</span></div>
+        <p class="plan-desc">La ruta entera: de la oferta a tus primeros clientes.</p>
+        <ul>
+          <li class="plus">Todo lo de Standard, más:</li>
+          <li>Los 6 cursos y 53 lecciones</li>
+          <li>Oferta clara y validada con clientes reales</li>
+          <li>Sistema de ventas: landing, ManyChat, CRM y guion</li>
+          <li>Revisamos tu oferta, perfil, videos y mensajes</li>
+          <li>Equipo de IA: prompts de Claude listos para usar</li>
+          <li>La Bóveda: plantillas, prompts y guías nuevas cada mes</li>
+          <li>Club VIP: negocio, finanzas, bienestar e invitados</li>
+        </ul>
+        <a class="btn btn-y" href="https://www.skool.com/dream-project-5697/about" target="_blank" rel="noopener">Quiero el plan Completo <span class="arrow">→</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="equipo" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Tu Dream Team</span>
+      <h2>Quién te <em>acompaña</em></h2>
+    </div>
+    <div class="team">
+      <article class="person spot reveal">
+        <div class="avatar"><img src="img/hector.jpg" alt="Héctor Machado" width="480" height="480" loading="lazy"></div>
+        <div>
+          <h3>Héctor</h3>
+          <a class="h" href="https://www.instagram.com/alwaystranquilo/" target="_blank" rel="noopener">@alwaystranquilo</a>
+          <p class="role">Oferta y Ventas</p>
+          <p class="bio">Más de 10 años en marketing. Dejó el mundo corporativo para construir su propio negocio.</p>
+        </div>
+      </article>
+      <article class="person spot reveal">
+        <div class="avatar"><img src="img/val.jpg" alt="Valentina Gómez" width="480" height="480" loading="lazy"></div>
+        <div>
+          <h3>Val</h3>
+          <a class="h" href="https://www.instagram.com/valgomezalv/" target="_blank" rel="noopener">@valgomezalv</a>
+          <p class="role">Autoridad y Contenido</p>
+          <p class="bio">Creadora de contenido con 10 años de experiencia, apasionada por el diseño y las tendencias en redes sociales.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="faq" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2>Antes de <em>entrar</em></h2>
+    </div>
+    <div class="faq">
+      <details class="reveal"><summary>¿Necesito experiencia en negocios digitales?</summary><p>No. Es para quien sabe de su área pero no sabe cómo convertirlo en ingresos. Empiezas desde cero.</p></details>
+      <details class="reveal"><summary>¿Puedo hacerlo sin renunciar a mi trabajo?</summary><p>Sí. Las lecciones son cortas y avanzas cuando puedas. La idea es que construyas ingresos propios antes de dar cualquier salto.</p></details>
+      <details class="reveal"><summary>¿Y si no puedo ir a la sesión en vivo?</summary><p>Queda grabada en Skool. Puedes dejar tu pregunta antes y te la respondemos en la sesión.</p></details>
+      <details class="reveal"><summary>¿Qué diferencia hay entre Standard y Completo?</summary><p>Standard te da marca y contenido. Completo te da toda la ruta: oferta, contenido, ventas, revisiones de tu caso y todos los recursos.</p></details>
+      <details class="reveal"><summary>¿Cómo entro?</summary><p>Haz clic en cualquier botón de esta página. Te lleva a Skool, eliges tu plan y empiezas.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="band final">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow">Tu decisión</span>
+    <h2>En 3 meses vas a estar en el mismo punto, <em>o con tu primer cliente</em></h2>
+    <p class="lead" style="margin:0">La diferencia no es talento ni suerte. Es haber empezado.</p>
+    <a class="btn btn-y" href="https://www.skool.com/dream-project-5697/about" target="_blank" rel="noopener">Entrar a Dream Project <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="logo" style="font-size:12px"><i></i>DREAM PROJECT</span>
+    <span>© 2026 Dream Project · <a href="https://www.skool.com/dream-project-5697/about" target="_blank" rel="noopener">skool.com/dream-project</a></span>
+    <nav class="legal-links" aria-label="Legal">
+      <button type="button" data-open="d-aviso">Aviso legal</button>
+      <button type="button" data-open="d-terminos">Términos y condiciones</button>
+      <button type="button" data-open="d-datos">Tratamiento de datos</button>
+      <button type="button" data-open="d-cookies">Política de cookies</button>
+      <button type="button" data-open="d-imagen">Uso de imagen</button>
+      <button type="button" id="openPrefs">Configurar cookies</button>
+    </nav>
+  </div>
+</footer>
+
+<dialog class="legal" id="d-aviso" aria-labelledby="t-aviso"><button class="x" type="button" aria-label="Cerrar">×</button><div class="legal-in">
+  <h3 id="t-aviso">Aviso legal</h3>
+  <p>Este sitio pertenece a Dream Project, marca operada por Héctor Machado y Valentina Álvarez Gómez, con domicilio en Bogotá D.C., Colombia.</p>
+  <ul>
+    <li>Titular / razón social: <span class="ph">[NOMBRE O RAZÓN SOCIAL]</span></li>
+    <li>NIT o documento: <span class="ph">[NIT]</span></li>
+    <li>Correo de contacto: <span class="ph">[CORREO]</span></li>
+    <li>WhatsApp: <span class="ph">[NÚMERO]</span></li>
+  </ul>
+  <p>Los textos, el Método Dream Project™, la marca y los materiales de este sitio son propiedad de Dream Project. No se pueden copiar ni vender sin autorización escrita.</p>
+  <p class="upd">Última actualización: <span class="ph">[FECHA]</span></p>
+</div></dialog>
+
+<dialog class="legal" id="d-terminos" aria-labelledby="t-terminos"><button class="x" type="button" aria-label="Cerrar">×</button><div class="legal-in">
+  <h3 id="t-terminos">Términos y condiciones</h3>
+  <h4>Uso del sitio</h4>
+  <p>Este sitio es informativo. Al usarlo aceptas estas reglas. Si no estás de acuerdo, no lo uses.</p>
+  <h4>Compras e inscripción</h4>
+  <p>La inscripción y el pago se hacen en Skool, una plataforma externa con sus propios términos. Las condiciones de cada plan (contenido, duración y precio) son las que aparecen en Skool al momento de comprar.</p>
+  <h4>Resultados</h4>
+  <p>Los resultados dependen de tu trabajo, tu experiencia y tu mercado. Dream Project no garantiza ingresos ni un número de clientes.</p>
+  <h4>Propiedad intelectual</h4>
+  <p>Los cursos, plantillas, prompts y grabaciones son para uso personal. No se pueden compartir, revender ni publicar.</p>
+  <h4>Enlaces externos</h4>
+  <p>Este sitio enlaza a Skool e Instagram. No respondemos por el contenido ni las políticas de esos sitios.</p>
+  <h4>Ley aplicable</h4>
+  <p>Estos términos se rigen por las leyes de Colombia, sin perjuicio de tus derechos como consumidor (Ley 1480 de 2011).</p>
+  <p class="upd">Última actualización: <span class="ph">[FECHA]</span></p>
+</div></dialog>
+
+<dialog class="legal" id="d-datos" aria-labelledby="t-datos"><button class="x" type="button" aria-label="Cerrar">×</button><div class="legal-in">
+  <h3 id="t-datos">Política de tratamiento de datos</h3>
+  <p>Cumplimos la Ley 1581 de 2012 y el Decreto 1377 de 2013 de Colombia.</p>
+  <h4>Responsable</h4>
+  <p><span class="ph">[NOMBRE O RAZÓN SOCIAL]</span> · <span class="ph">[NIT]</span> · Bogotá D.C. · <span class="ph">[CORREO]</span></p>
+  <h4>Qué datos recogemos</h4>
+  <p>Nombre, correo y WhatsApp cuando nos los das (formularios, mensajes o inscripción). Si aceptas cookies, datos de navegación como páginas vistas.</p>
+  <h4>Para qué los usamos</h4>
+  <ul>
+    <li>Responder tus preguntas y agendar llamadas.</li>
+    <li>Darte acceso al programa y acompañarte.</li>
+    <li>Enviarte contenido y ofertas de Dream Project (puedes salirte cuando quieras).</li>
+    <li>Medir y mejorar nuestra publicidad, solo si aceptaste cookies.</li>
+  </ul>
+  <p>No vendemos tus datos. Solo los compartimos con las herramientas que usamos para operar (por ejemplo Skool, ManyChat o nuestro CRM).</p>
+  <h4>Tus derechos</h4>
+  <p>Puedes conocer, actualizar, corregir y pedir que borremos tus datos, o retirar tu autorización. Escríbenos a <span class="ph">[CORREO]</span> con el asunto "Mis datos". Respondemos consultas en máximo 10 días hábiles y reclamos en máximo 15 días hábiles. También puedes acudir a la Superintendencia de Industria y Comercio.</p>
+  <p class="upd">Vigente desde: <span class="ph">[FECHA]</span></p>
+</div></dialog>
+
+<dialog class="legal" id="d-cookies" aria-labelledby="t-cookies"><button class="x" type="button" aria-label="Cerrar">×</button><div class="legal-in">
+  <h3 id="t-cookies">Política de cookies</h3>
+  <p>Las cookies son pequeños archivos que guarda tu navegador.</p>
+  <h4>Tipos que usamos</h4>
+  <ul>
+    <li><b>Necesarias:</b> recuerdan tu elección sobre cookies. Siempre activas.</li>
+    <li><b>Analítica:</b> nos dicen cuántas personas visitan la página y qué miran.</li>
+    <li><b>Marketing:</b> nos ayudan a mostrarte anuncios relevantes (por ejemplo, el píxel de Meta).</li>
+  </ul>
+  <p>Analítica y marketing solo se activan si las aceptas. Puedes cambiar tu elección cuando quieras en "Configurar cookies", al final de la página.</p>
+</div></dialog>
+
+<dialog class="legal" id="d-imagen" aria-labelledby="t-imagen"><button class="x" type="button" aria-label="Cerrar">×</button><div class="legal-in">
+  <h3 id="t-imagen">Uso de imagen y testimonios</h3>
+  <p>Toda persona que aparece en fotos, videos o testimonios de este sitio dio su autorización escrita para ese uso.</p>
+  <p>Si apareces aquí y quieres retirar tu autorización, escríbenos a <span class="ph">[CORREO]</span> y lo quitamos.</p>
+</div></dialog>
+
+<div class="cookie" id="cookie" role="region" aria-label="Aviso de cookies" hidden>
+  <p>Usamos cookies para que la página funcione y, si aceptas, para medir visitas y mejorar nuestros anuncios. <button type="button" data-open="d-cookies">Más información</button></p>
+  <div class="prefs" id="prefs" hidden>
+    <label>Necesarias<small>Siempre activas</small><input type="checkbox" id="ck-nec" checked disabled></label>
+    <label><span>Analítica<small>Visitas y páginas vistas</small></span><input type="checkbox" id="ck-ana"></label>
+    <label><span>Marketing<small>Anuncios en redes</small></span><input type="checkbox" id="ck-mkt"></label>
+  </div>
+  <div class="cookie-row">
+    <button class="btn btn-y" type="button" id="ck-all">Aceptar</button>
+    <button class="btn btn-ghost" type="button" id="ck-none">Rechazar</button>
+    <button class="btn btn-ghost" type="button" id="ck-cfg">Configurar</button>
+  </div>
+</div>
+
+<a class="btn btn-y float-cta" id="floatCta" href="https://www.skool.com/dream-project-5697/about" target="_blank" rel="noopener">Entrar a Dream Project <span class="arrow">→</span></a>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Campo de partículas del hero */
+  var c = document.getElementById('field'), ctx = c.getContext('2d'), pts = [], W, H, dpr, mouse = {x:-999,y:-999};
+  function size(){
+    dpr = Math.min(window.devicePixelRatio||1, 2);
+    W = c.clientWidth; H = c.clientHeight;
+    c.width = W*dpr; c.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    var n = Math.round(Math.min(90, W*H/14000));
+    pts = [];
+    for (var i=0;i<n;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.6+.6});
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for (var i=0;i<pts.length;i++){
+      var p = pts[i];
+      if (!reduce){ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1; }
+      var dm = Math.hypot(p.x-mouse.x,p.y-mouse.y);
+      for (var j=i+1;j<pts.length;j++){
+        var q = pts[j], d = Math.hypot(p.x-q.x,p.y-q.y);
+        if (d<130){ ctx.strokeStyle='rgba(253,218,13,'+(0.16*(1-d/130))+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke(); }
+      }
+      if (dm<180){ ctx.strokeStyle='rgba(253,218,13,'+(0.45*(1-dm/180))+')'; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke(); }
+      ctx.fillStyle = dm<180 ? '#FDDA0D' : 'rgba(244,242,234,.55)';
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+  size(); draw();
+  window.addEventListener('resize', function(){ size(); if(reduce) draw(); });
+  c.parentElement.addEventListener('pointermove', function(e){ var r=c.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; });
+  c.parentElement.addEventListener('pointerleave', function(){ mouse.x=mouse.y=-999; });
+
+  /* Puntos de comunidad */
+  var dots = document.getElementById('dots');
+  [[12,30],[28,62],[44,24],[58,58],[72,32],[86,64],[20,80],[66,80]].forEach(function(p,i){
+    var d=document.createElement('i'); d.style.left=p[0]+'%'; d.style.top=p[1]+'%'; d.style.animationDelay=(i*.3)+'s';
+    if(i%3===1){d.style.background='#f4f2ea';d.style.boxShadow='none';}
+    dots.appendChild(d);
+  });
+
+  /* Luz que sigue al cursor en tarjetas */
+  document.querySelectorAll('.spot').forEach(function(el){
+    el.addEventListener('pointermove', function(e){ var r=el.getBoundingClientRect(); el.style.setProperty('--mx',(e.clientX-r.left)+'px'); el.style.setProperty('--my',(e.clientY-r.top)+'px'); });
+  });
+
+  /* Contadores del HUD */
+  if (!reduce) document.querySelectorAll('[data-count]').forEach(function(el){
+    var to=+el.dataset.count, t0=null;
+    function step(t){ if(!t0)t0=t; var k=Math.min(1,(t-t0)/1400); el.textContent=Math.round(to*(1-Math.pow(1-k,3))); if(k<1)requestAnimationFrame(step); }
+    el.textContent='0'; requestAnimationFrame(step);
+  });
+
+  /* Reveal: solo oculta lo que está debajo del pliegue al cargar */
+  if (!reduce && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); e.target.classList.remove('pre'); io.unobserve(e.target);} }); },{threshold:.12});
+    var vh = window.innerHeight;
+    document.querySelectorAll('.reveal').forEach(function(el,i){
+      if (el.getBoundingClientRect().top > vh){ el.classList.add('pre'); el.style.transitionDelay=((i%4)*80)+'ms'; io.observe(el); }
+    });
+  }
+
+  /* CTA flotante */
+  var fc=document.getElementById('floatCta'), hero=document.querySelector('.hero');
+  function onScroll(){ var past = window.scrollY > hero.offsetHeight*0.8; var nearEnd = window.innerHeight+window.scrollY > document.body.scrollHeight-260; var ck=document.getElementById('cookie'); fc.classList.toggle('show', past && !nearEnd && (!ck || ck.hidden)); }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* Documentos legales */
+  document.querySelectorAll('[data-open]').forEach(function(b){
+    b.addEventListener('click', function(){ var d=document.getElementById(b.dataset.open); if(d&&d.showModal) d.showModal(); });
+  });
+  document.querySelectorAll('dialog.legal').forEach(function(d){
+    d.querySelector('.x').addEventListener('click', function(){ d.close(); });
+    d.addEventListener('click', function(e){ if(e.target===d) d.close(); });
+  });
+
+  /* Cookies: aceptar, rechazar o configurar */
+  var box=document.getElementById('cookie'), prefs=document.getElementById('prefs'), cfg=document.getElementById('ck-cfg');
+  function load(){ try{ return JSON.parse(localStorage.getItem('dp-cookies')); }catch(e){ return null; } }
+  function save(v){ try{ localStorage.setItem('dp-cookies', JSON.stringify(v)); }catch(e){} box.hidden=true; applyConsent(v); onScroll(); }
+  function applyConsent(v){
+    /* Aquí se cargan los scripts solo si hay consentimiento, por ejemplo:
+       if (v.analitica) { ...Google Analytics... }
+       if (v.marketing) { ...Píxel de Meta... } */
+  }
+  var saved=load();
+  if(saved){ applyConsent(saved); } else { box.hidden=false; }
+  document.getElementById('ck-all').addEventListener('click', function(){ save({analitica:true,marketing:true}); });
+  document.getElementById('ck-none').addEventListener('click', function(){ save({analitica:false,marketing:false}); });
+  cfg.addEventListener('click', function(){
+    if(prefs.hidden){ prefs.hidden=false; cfg.textContent='Guardar selección'; }
+    else { save({analitica:document.getElementById('ck-ana').checked,marketing:document.getElementById('ck-mkt').checked}); }
+  });
+  document.getElementById('openPrefs').addEventListener('click', function(){
+    var v=load()||{}; document.getElementById('ck-ana').checked=!!v.analitica; document.getElementById('ck-mkt').checked=!!v.marketing;
+    prefs.hidden=false; cfg.textContent='Guardar selección'; box.hidden=false;
+  });
+})();
+</script>
+
+</body>
+</html>
